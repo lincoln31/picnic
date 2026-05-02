@@ -931,11 +931,10 @@
 <div class="modal-overlay" id="modal-no">
   <div class="modal-box">
     <span class="modal-icon">🌸</span>
-    <h3>¿Segura, de verdad?</h3>
-    <p>Piénsalo bien… un picnic contigo, buena compañía y una tarde bonita esperan por ti. ¿De verdad vas a rechazar esta invitación tan especial?</p>
+    <h3>No te dejaré decir que no 😌</h3>
+    <p>Esta invitación viene con insistencia romántica incluida. Solo hay una opción válida: aceptar y dejarme hacerte feliz en ese picnic.</p>
     <div class="modal-buttons">
-      <button class="modal-btn no" onclick="closeModalNo()">No, me quedo con mi decisión</button>
-      <button class="modal-btn yes" onclick="acceptFromModal()">¡Acepto la invitación! 🌹</button>
+      <button class="modal-btn yes" onclick="acceptFromModal()">Está bien… ¡acepto! 🌹</button>
     </div>
   </div>
 </div>
@@ -1105,7 +1104,8 @@ const CONFIG_EMAILJS = {
   serviceId: 'service_6fxesnp',
   templateId: 'template_dgzvhzo',
   publicKey: '_Uimo2VPfoNel4Fzx',
-  destinoCorreo: 'jcollazosvorse@gmail.com'
+  destinoCorreo: 'jcollazosvorse@gmail.com',
+  notificarApertura: true
 };
 
 function handleSi() {
@@ -1361,9 +1361,41 @@ function toggleMusica() {
   setMusicaActiva(!musicaActiva);
 }
 
+async function notificarAperturaSiAplica() {
+  const llave = 'invitacion_apertura_notificada_v1';
+  if (!CONFIG_EMAILJS.notificarApertura || !CONFIG_EMAILJS.usarEnvioReal) return;
+  if (localStorage.getItem(llave) === '1') return;
+
+  const bodyApertura = {
+    service_id: CONFIG_EMAILJS.serviceId,
+    template_id: CONFIG_EMAILJS.templateId,
+    user_id: CONFIG_EMAILJS.publicKey,
+    template_params: {
+      to_email: CONFIG_EMAILJS.destinoCorreo,
+      food_choice: 'Solo abrió la invitación 👀',
+      moto_choice: 'Aún sin respuesta',
+      picnic_wish: 'Se detectó apertura de la invitación (primer gesto del usuario).',
+      date: 'Pendiente de confirmar',
+      location: 'Pendiente de confirmar'
+    }
+  };
+
+  try {
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bodyApertura)
+    });
+    if (res.ok) localStorage.setItem(llave, '1');
+  } catch (e) {
+    // Si falla, no bloquea la experiencia de la invitación.
+  }
+}
+
 function activarMusicaPrimerGesto(event) {
   const btn = document.getElementById('music-btn');
   if (btn && event.target && btn.contains(event.target)) return;
+  notificarAperturaSiAplica();
   setMusicaActiva(true);
 }
 
