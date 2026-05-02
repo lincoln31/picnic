@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Una Invitación Especial 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fff5f7 0%, #fef0f5 30%, #fff8f0 60%, #f5f0ff 100%);
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Flores decorativas SVG de fondo */
+  .bg-flowers {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  /* Header floral */
+  .floral-header {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .floral-header .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 15px;
+    color: #c9829a;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* Card principal */
+  .invitation-card {
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    border: 1.5px solid rgba(220, 160, 185, 0.25);
+    padding: 44px 48px 48px;
+    box-shadow: 0 8px 60px rgba(200,120,160,0.10), 0 2px 20px rgba(200,120,160,0.07);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .invitation-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,182,210,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .invitation-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(180,160,255,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Divider floral */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(210,140,170,0.4), transparent);
+  }
+  .divider-flower {
+    font-size: 18px;
+    color: #d4849e;
+  }
+
+  /* Texto de invitación */
+  .invitation-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.85;
+    color: #4a3040;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .invitation-text .greeting {
+    font-size: 24px;
+    font-weight: 600;
+    color: #b05c7a;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* Sección de respuesta Sí/No */
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: #9a5e72;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .choice-group {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .choice-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(200,130,160,0.35);
+    background: rgba(255,255,255,0.7);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #a06070;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .choice-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(200,120,160,0.22);
+  }
+
+  .choice-btn.si-btn {
+    background: linear-gradient(135deg, rgba(255,182,200,0.3), rgba(255,200,220,0.4));
+  }
+
+  .choice-btn.si-btn:hover, .choice-btn.si-btn.selected {
+    background: linear-gradient(135deg, #f7a8c0, #f0c0d0);
+    color: #7a2040;
+    border-color: #e890ac;
+  }
+
+  .choice-btn.no-btn {
+    background: linear-gradient(135deg, rgba(220,210,240,0.3), rgba(200,190,230,0.3));
+  }
+
+  .choice-btn.no-btn:hover, .choice-btn.no-btn.selected {
+    background: linear-gradient(135deg, #c8bde8, #d4c8f0);
+    color: #4a3060;
+    border-color: #a090cc;
+  }
+
+  /* Sección que aparece si dice SÍ */
+  .si-section {
+    display: none;
+    animation: fadeInUp 0.5s ease;
+  }
+
+  .si-section.visible { display: block; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-block {
+    background: rgba(255,240,248,0.6);
+    border-radius: 18px;
+    padding: 22px 26px;
+    border: 1px solid rgba(220,160,185,0.2);
+    margin-bottom: 20px;
+  }
+
+  .q-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #9a5e72;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  /* Opciones de comida */
+  .food-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .food-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(200,140,170,0.2);
+    background: rgba(255,255,255,0.6);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #5a3a4a;
+    line-height: 1.5;
+  }
+
+  .food-option input[type="radio"] { display: none; }
+
+  .food-option:hover {
+    background: rgba(255,210,225,0.4);
+    border-color: rgba(210,120,160,0.35);
+  }
+
+  .food-option.selected-opt {
+    background: linear-gradient(135deg, rgba(255,190,215,0.4), rgba(255,210,230,0.5));
+    border-color: rgba(210,120,160,0.45);
+  }
+
+  .food-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #d4849e;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .food-option.selected-opt .food-dot {
+    background: #d4849e;
+    border-color: #c0607a;
+  }
+
+  .food-option.selected-opt .food-dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  /* Opciones de transporte (moto) */
+  .moto-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .moto-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(200,140,170,0.2);
+    background: rgba(255,255,255,0.6);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #5a3a4a;
+    line-height: 1.4;
+  }
+
+  .moto-option input[type="radio"] { display: none; }
+
+  .moto-option:hover {
+    background: rgba(255,210,225,0.4);
+    border-color: rgba(210,120,160,0.35);
+  }
+
+  .moto-option.selected-opt {
+    background: linear-gradient(135deg, rgba(255,190,215,0.4), rgba(255,210,230,0.5));
+    border-color: rgba(210,120,160,0.45);
+  }
+
+  .moto-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #d4849e;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .moto-option.selected-opt .moto-dot {
+    background: #d4849e;
+    border-color: #c0607a;
+  }
+
+  .moto-option.selected-opt .moto-dot::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  /* Textarea */
+  .fancy-textarea {
+    width: 100%;
+    min-height: 90px;
+    border-radius: 16px;
+    border: 1.5px solid rgba(200,140,170,0.3);
+    background: rgba(255,255,255,0.7);
+    padding: 14px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: #4a3040;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .fancy-textarea::placeholder {
+    color: rgba(180,120,150,0.55);
+    font-style: italic;
+  }
+
+  .fancy-textarea:focus {
+    border-color: rgba(200,100,140,0.55);
+    box-shadow: 0 0 0 3px rgba(220,140,175,0.12);
+  }
+
+  /* Botón confirmar */
+  .confirm-btn {
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #e8849e, #c96a88, #b05578);
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(180,80,120,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .confirm-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 50%; height: 200%;
+    background: rgba(255,255,255,0.15);
+    transform: skewX(-20deg);
+    transition: left 0.4s ease;
+  }
+
+  .confirm-btn:hover::before { left: 120%; }
+
+  .confirm-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(180,80,120,0.4);
+  }
+
+  .confirm-btn:active { transform: translateY(0); }
+
+  /* Estado de envío */
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 30px 20px;
+    animation: fadeInUp 0.5s ease;
+  }
+
+  .success-msg.visible { display: block; }
+
+  .success-msg .big-flower {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .success-msg p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: #b05c7a;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(80,30,50,0.45);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal-box {
+    background: linear-gradient(135deg, #fff5f7, #fef8ff);
+    border-radius: 24px;
+    padding: 40px 36px;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    border: 1.5px solid rgba(220,160,185,0.3);
+    box-shadow: 0 20px 60px rgba(160,80,110,0.2);
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.88) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-box .modal-icon { font-size: 40px; margin-bottom: 12px; display: block; }
+
+  .modal-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: #7a3050;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .modal-box p {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #8a6070;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  .modal-buttons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 50px;
+    border: 1.5px solid;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .modal-btn.yes {
+    background: linear-gradient(135deg, #e8849e, #c96a88);
+    border-color: #c06880;
+    color: white;
+  }
+
+  .modal-btn.no {
+    background: transparent;
+    border-color: rgba(200,140,170,0.4);
+    color: #a06878;
+  }
+
+  .modal-btn:hover { transform: translateY(-1px); }
+
+  /* Confirmación final modal */
+  .modal-confirm-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: #6a3050;
+    font-style: italic;
+    line-height: 1.7;
+    text-align: center;
+    padding: 10px 0 20px;
+  }
+
+  .modal-confirm-text strong {
+    color: #b05070;
+    font-style: normal;
+    display: block;
+    font-size: 21px;
+    margin-bottom: 8px;
+  }
+
+  .modal-ok-btn {
+    background: linear-gradient(135deg, #e8849e, #c96a88);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 13px 32px;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 16px rgba(180,80,120,0.25);
+  }
+
+  .modal-ok-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(180,80,120,0.35); }
+
+  /* Flores SVG pequeñas decorativas */
+  .petal-deco {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.35;
+  }
+
+  /* Enviando loader */
+  .sending-state {
+    text-align: center;
+    padding: 20px;
+    display: none;
+  }
+
+  .sending-state.visible { display: block; }
+
+  .petal-spinner {
+    display: inline-block;
+    font-size: 32px;
+    animation: spin 1.5s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .status-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: #a06878;
+    margin-top: 10px;
+    display: block;
+  }
+
+  /* Petals floatings */
+  .falling-petal {
+    position: fixed;
+    font-size: 20px;
+    animation: fall linear infinite;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Dirección */
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, rgba(255,190,215,0.3), rgba(220,190,255,0.3));
+    border: 1px solid rgba(200,140,175,0.3);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    color: #9a5e7a;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  @media (max-width: 520px) {
+    .invitation-card { padding: 28px 22px 36px; }
+    .invitation-text { font-size: 17px; }
+    .choice-group { flex-direction: column; gap: 10px; }
+  }
+
+  /* ===== BOTÓN MÚSICA FLOTANTE ===== */
+  .music-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,240,248,0.96));
+    box-shadow: 0 4px 20px rgba(180,80,120,0.22), 0 0 0 1.5px rgba(220,160,185,0.4);
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .music-btn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 6px 28px rgba(180,80,120,0.35), 0 0 0 2px rgba(220,140,175,0.5);
+  }
+  .music-btn.playing {
+    background: linear-gradient(135deg, #f0a0bc, #e8849e);
+    box-shadow: 0 4px 20px rgba(180,80,120,0.4), 0 0 0 4px rgba(240,160,190,0.3);
+    animation: music-pulse 1.8s ease-in-out infinite;
+  }
+  .music-icon-on { display: none; }
+  .music-btn.playing .music-icon { display: none; }
+  .music-btn.playing .music-icon-on { display: inline; }
+  @keyframes music-pulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(180,80,120,0.4), 0 0 0 4px rgba(240,160,190,0.3); }
+    50%       { box-shadow: 0 6px 26px rgba(180,80,120,0.5), 0 0 0 9px rgba(240,160,190,0.1); }
+  }
+
+  /* ===== EASTER EGGS ===== */
+  .petal-deco   { cursor: pointer; }
+  .divider-flower { cursor: pointer; user-select: none; }
+  .petal-explosion {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    animation: explotar 0.9s ease-out forwards;
+  }
+  @keyframes explotar {
+    0%   { transform: translate(0,0) scale(0.6); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(1.3); opacity: 0; }
+  }
+  .easter-msg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.85);
+    background: linear-gradient(135deg, rgba(255,240,248,0.97), rgba(255,248,255,0.97));
+    border: 1.5px solid rgba(220,160,185,0.5);
+    border-radius: 20px;
+    padding: 18px 30px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: #b05c7a;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(180,80,120,0.25);
+    z-index: 9997;
+    opacity: 0;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+    max-width: 320px;
+    width: 90vw;
+  }
+  .easter-msg.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* ===== CARTA SORPRESA ===== */
+  .carta-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(60,20,40,0.62);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    backdrop-filter: blur(6px);
+  }
+  .carta-overlay.active { display: flex; }
+
+  /* Sobre */
+  .sobre {
+    width: 280px;
+    height: 180px;
+    background: linear-gradient(160deg, #fff8fa 60%, #fce8f0);
+    border: 2px solid rgba(220,160,185,0.5);
+    border-radius: 4px 4px 10px 10px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(180,80,120,0.25);
+    overflow: visible;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    animation: cartaEntrada 0.5s ease;
+    transform-style: preserve-3d;
+  }
+  .sobre:hover { transform: translateY(-4px); }
+  @keyframes cartaEntrada {
+    from { opacity: 0; transform: scale(0.82) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .sobre-interior-izq {
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-top: 90px solid transparent;
+    border-bottom: 90px solid transparent;
+    border-left: 140px solid rgba(245,195,215,0.35);
+  }
+  .sobre-interior-der {
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-top: 90px solid transparent;
+    border-bottom: 90px solid transparent;
+    border-right: 140px solid rgba(245,195,215,0.35);
+  }
+  .sobre-interior-bot {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-bottom: 95px solid rgba(250,205,225,0.45);
+  }
+  .sobre-solapa {
+    position: absolute;
+    top: 0; left: -1px;
+    width: calc(100% + 2px);
+    height: 96px;
+    background: linear-gradient(160deg, #f5c0d4, #eda8c0);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 4;
+    border-radius: 4px 4px 0 0;
+  }
+  .sobre-solapa.abierta {
+    transform: perspective(700px) rotateX(-175deg);
+  }
+  .sobre-frente {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    z-index: 2;
+    padding-top: 30px;
+  }
+  .sobre-hint {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: rgba(255,255,255,0.88);
+    margin-top: 14px;
+    animation: parpadeo 2s ease-in-out infinite;
+  }
+  @keyframes parpadeo {
+    0%, 100% { opacity: 0.88; }
+    50%       { opacity: 0.4; }
+  }
+
+  /* Carta de papel */
+  .carta-papel {
+    display: none;
+    background: linear-gradient(160deg, #fffafc, #fff5f8);
+    border-radius: 16px;
+    padding: 32px 28px 24px;
+    max-width: 340px;
+    width: 92vw;
+    text-align: center;
+    border: 1.5px solid rgba(220,160,185,0.35);
+    box-shadow: 0 16px 50px rgba(180,80,120,0.25);
+    animation: cartaDesplegar 0.6s ease;
+  }
+  .carta-papel.visible { display: block; }
+  @keyframes cartaDesplegar {
+    from { opacity: 0; transform: scale(0.88) translateY(24px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .carta-deco-top, .carta-deco-bot {
+    font-size: 15px;
+    color: #d4849e;
+    letter-spacing: 8px;
+    margin-bottom: 14px;
+  }
+  .carta-deco-bot { margin-top: 14px; margin-bottom: 0; letter-spacing: 12px; }
+  .carta-saludo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+    font-style: italic;
+    font-weight: 600;
+    color: #b05c7a;
+    margin-bottom: 16px;
+  }
+  .carta-cuerpo p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16.5px;
+    line-height: 1.78;
+    color: #5a3a4a;
+    margin-bottom: 10px;
+  }
+  .carta-firma {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #c96a88;
+    margin-top: 10px;
+  }
+  .carta-cerrar-btn {
+    margin-top: 20px;
+    padding: 12px 28px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #e8849e, #c96a88, #b05578);
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(180,80,120,0.3);
+  }
+  .carta-cerrar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(180,80,120,0.4);
+  }
+</style>
+</head>
+<body>
+
+<!-- Fondo con flores SVG -->
+<svg class="bg-flowers" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+  <!-- Lirios y rosas de fondo decorativos -->
+  <g opacity="0.06">
+    <circle cx="80" cy="80" r="60" fill="#e8849e"/>
+    <circle cx="1320" cy="100" r="80" fill="#c8a0e0"/>
+    <circle cx="200" cy="800" r="90" fill="#f4b8cc"/>
+    <circle cx="1200" cy="780" r="70" fill="#d4a0c0"/>
+    <circle cx="700" cy="50" r="50" fill="#e8a0b8"/>
+  </g>
+  <!-- Pétalos estilizados -->
+  <g opacity="0.09" fill="#e0849c">
+    <!-- Rosa grande izquierda -->
+    <ellipse cx="60" cy="200" rx="35" ry="55" transform="rotate(-20,60,200)"/>
+    <ellipse cx="40" cy="210" rx="30" ry="50" transform="rotate(10,40,210)"/>
+    <ellipse cx="85" cy="185" rx="28" ry="48" transform="rotate(-50,85,185)"/>
+    <ellipse cx="70" cy="230" rx="25" ry="42" transform="rotate(40,70,230)"/>
+    <!-- Clavel derecha -->
+    <ellipse cx="1350" cy="300" rx="30" ry="22" transform="rotate(15,1350,300)"/>
+    <ellipse cx="1365" cy="285" rx="28" ry="20" transform="rotate(-10,1365,285)"/>
+    <ellipse cx="1340" cy="315" rx="26" ry="18" transform="rotate(35,1340,315)"/>
+    <!-- Lirio abajo izquierda -->
+    <ellipse cx="100" cy="720" rx="18" ry="50" transform="rotate(-25,100,720)"/>
+    <ellipse cx="120" cy="710" rx="16" ry="45" transform="rotate(25,120,710)"/>
+    <ellipse cx="80" cy="730" rx="14" ry="40" transform="rotate(-60,80,730)"/>
+  </g>
+  <!-- Hojas decorativas -->
+  <g opacity="0.07" fill="#a0c890">
+    <ellipse cx="30" cy="160" rx="12" ry="30" transform="rotate(20,30,160)"/>
+    <ellipse cx="1380" cy="250" rx="10" ry="26" transform="rotate(-15,1380,250)"/>
+    <ellipse cx="60" cy="680" rx="11" ry="28" transform="rotate(30,60,680)"/>
+  </g>
+</svg>
+
+<!-- Pétalos cayendo -->
+<div id="petals-container"></div>
+
+<!-- Botón música flotante -->
+<button class="music-btn" id="music-btn" onclick="toggleMusica()" title="Música romántica 🎵" aria-label="Reproducir música romántica">
+  <span class="music-icon">🎵</span>
+  <span class="music-icon-on">🎶</span>
+</button>
+
+<!-- Modal: Carta sorpresa -->
+<div id="carta-overlay" class="carta-overlay">
+  <div id="carta-sobre-wrap">
+    <div class="sobre" id="el-sobre" onclick="abrirCarta()">
+      <div class="sobre-interior-izq"></div>
+      <div class="sobre-interior-der"></div>
+      <div class="sobre-interior-bot"></div>
+      <div class="sobre-solapa" id="sobre-solapa"></div>
+      <div class="sobre-frente">💌</div>
+    </div>
+    <p class="sobre-hint">Toca para abrir tu carta ✨</p>
+  </div>
+  <div class="carta-papel" id="carta-papel">
+    <div class="carta-deco-top">🌹 ✦ 🌹</div>
+    <p class="carta-saludo">Para ti, dama hermosa…</p>
+    <div class="carta-cuerpo">
+      <p>Hace tiempo quería hacer algo especial, algo que mostrara lo mucho que me alegra tenerte cerca.</p>
+      <p>Este picnic es mi forma de decirte que me gustas, que me encanta tu compañía, y que quiero pasar una tarde bonita contigo.</p>
+      <p>¡Gracias por aceptar! 🌸</p>
+    </div>
+    <p class="carta-firma">Con mucho cariño 💕</p>
+    <div class="carta-deco-bot">✦ ✦ ✦</div>
+    <button class="carta-cerrar-btn" onclick="cerrarCarta()">Guardar en mi corazón 💕</button>
+  </div>
+</div>
+
+<!-- Modal: ¿Segura que no? -->
+<div class="modal-overlay" id="modal-no">
+  <div class="modal-box">
+    <span class="modal-icon">🌸</span>
+    <h3>¿Segura, de verdad?</h3>
+    <p>Piénsalo bien… un picnic contigo, buena compañía y una tarde bonita esperan por ti. ¿De verdad vas a rechazar esta invitación tan especial?</p>
+    <div class="modal-buttons">
+      <button class="modal-btn no" onclick="closeModalNo()">No, me quedo con mi decisión</button>
+      <button class="modal-btn yes" onclick="acceptFromModal()">¡Acepto la invitación! 🌹</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmación sin vuelta atrás -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal-box">
+    <span class="modal-icon">🌹</span>
+    <p class="modal-confirm-text">
+      <strong>¡Ya aceptaste la invitación!</strong>
+      No hay vuelta atrás, ¿eh? 😏<br><br>
+      El 3 de mayo, 3:30 o 4:00 de la tarde,<br>parque detrás de San Antonio.<br><br>
+      Ahora cuéntame… ¿qué quieres comer? 🍓
+    </p>
+    <button class="modal-ok-btn" onclick="closeModalConfirm()">¡Con gusto! 💫</button>
+  </div>
+</div>
+
+<!-- Container principal -->
+<div class="container">
+  <div class="floral-header">
+    <p class="subtitle">✦ Una invitación especial ✦</p>
+  </div>
+
+  <div class="invitation-card">
+
+    <!-- SVG flor decorativa top right -->
+    <svg class="petal-deco" style="top:-10px;right:20px;width:90px;height:90px;" viewBox="0 0 100 100" onclick="floresClick(event)">
+      <g opacity="0.5">
+        <ellipse cx="50" cy="28" rx="10" ry="24" fill="#f0a0bc"/>
+        <ellipse cx="50" cy="28" rx="10" ry="24" fill="#f0a0bc" transform="rotate(60,50,50)"/>
+        <ellipse cx="50" cy="28" rx="10" ry="24" fill="#f0a0bc" transform="rotate(120,50,50)"/>
+        <ellipse cx="50" cy="28" rx="10" ry="24" fill="#e890ac" transform="rotate(180,50,50)"/>
+        <ellipse cx="50" cy="28" rx="10" ry="24" fill="#e890ac" transform="rotate(240,50,50)"/>
+        <ellipse cx="50" cy="28" rx="10" ry="24" fill="#e890ac" transform="rotate(300,50,50)"/>
+        <circle cx="50" cy="50" r="12" fill="#ffd0e0"/>
+      </g>
+    </svg>
+
+    <!-- SVG lirio decorativo bottom left -->
+    <svg class="petal-deco" style="bottom:10px;left:14px;width:70px;height:70px;" viewBox="0 0 100 100" onclick="floresClick(event)">
+      <g opacity="0.45">
+        <ellipse cx="50" cy="25" rx="8" ry="28" fill="#c0a0e0"/>
+        <ellipse cx="50" cy="25" rx="8" ry="28" fill="#c0a0e0" transform="rotate(72,50,50)"/>
+        <ellipse cx="50" cy="25" rx="8" ry="28" fill="#b090d0" transform="rotate(144,50,50)"/>
+        <ellipse cx="50" cy="25" rx="8" ry="28" fill="#b090d0" transform="rotate(216,50,50)"/>
+        <ellipse cx="50" cy="25" rx="8" ry="28" fill="#c0a0e0" transform="rotate(288,50,50)"/>
+        <circle cx="50" cy="50" r="9" fill="#e8d8f8"/>
+      </g>
+    </svg>
+
+    <!-- Texto de invitación -->
+    <div class="invitation-text">
+      <span class="greeting">Buenas tardes, Dama hermosa 😌</span>
+      Quería hacerte una invitación especial… ¿qué dices si el <strong style="color:#b05c7a">3 de mayo</strong> nos escapamos a un picnic en el parque detrás de San Antonio? Prometo buena compañía, risas y un rato bonito juntos, tipo <strong style="color:#b05c7a">3:30 o 4:00 de la tarde</strong>.
+    </div>
+
+    <div class="location-pill">
+      📍 Parque detrás de San Antonio, Cali
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-flower">🌸</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <span class="section-label">Ahora la pregunta importante… ¿vas a aceptar o me tocará convencerte en persona?</span>
+
+    <div class="choice-group">
+      <button class="choice-btn si-btn" id="btn-si" onclick="handleSi()">
+        🌹 ¡Sí, voy!
+      </button>
+      <button class="choice-btn no-btn" id="btn-no" onclick="handleNo()">
+        🌿 Mmm, no sé…
+      </button>
+    </div>
+
+    <!-- Sección que aparece al decir SÍ -->
+    <div class="si-section" id="si-section">
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-flower">🌼</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="question-block">
+        <span class="q-label">¿Quieres comer algo mientras estamos en el picnic? 💫</span>
+        <div class="food-options" id="food-options">
+          <label class="food-option" onclick="selectFood(this)">
+            <input type="radio" name="food" value="1">
+            <div class="food-dot"></div>
+            <span>🍓🥪 Ir a comprar algo rico en <strong>Casa Banana</strong></span>
+          </label>
+          <label class="food-option" onclick="selectFood(this)">
+            <input type="radio" name="food" value="2">
+            <div class="food-dot"></div>
+            <span>🍫🍬 Comprar chucherías y comer ahí tranquilos</span>
+          </label>
+          <label class="food-option" onclick="selectFood(this)">
+            <input type="radio" name="food" value="3">
+            <div class="food-dot"></div>
+            <span>🌙✨ Dejar el picnic suave y luego salir a comer en la noche</span>
+          </label>
+          <label class="food-option" onclick="selectFood(this)">
+            <input type="radio" name="food" value="4">
+            <div class="food-dot"></div>
+            <span>😏 Dime tú… soy todo oídos para tus antojos</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <span class="q-label">¿Qué no puede faltar para que tu picnic sea perfecto? 🌸</span>
+        <textarea
+          class="fancy-textarea"
+          id="picnic-wish"
+          placeholder="Cuéntame todo lo que imaginas... flores, música, una manta bonita, tu snack favorito…"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="question-block">
+        <span class="q-label">¿Quieres que vayamos en mi moto? 🏍️</span>
+        <div class="moto-options" id="moto-options">
+          <label class="moto-option" onclick="selectMoto(this)">
+            <input type="radio" name="moto" value="si">
+            <div class="moto-dot"></div>
+            <span>Sí, vamos en tu moto 💨</span>
+          </label>
+          <label class="moto-option" onclick="selectMoto(this)">
+            <input type="radio" name="moto" value="no">
+            <div class="moto-dot"></div>
+            <span>Nop🌸</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="form-actions">
+        <button class="confirm-btn" onclick="submitForm()">
+          🌹 Confirmar nuestra cita 🌹
+        </button>
+      </div>
+
+      <div class="sending-state" id="sending-state">
+        <span class="petal-spinner">🌸</span>
+        <span class="status-text">Enviando tu respuesta con mucho cariño…</span>
+      </div>
+
+      <div class="success-msg" id="success-msg">
+        <span class="big-flower">💐</span>
+        <p>¡La cita está confirmada, dama hermosa!<br>El 3 de mayo te espero con todo.<br><em>Va a ser un día muy bonito juntos</em> 🌹</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+let siSelected = false;
+
+// ===== CONFIGURACION ENVIO =====
+const CONFIG_EMAILJS = {
+  usarEnvioReal: true,
+  serviceId: 'service_6fxesnp',
+  templateId: 'template_dgzvhzo',
+  publicKey: '_Uimo2VPfoNel4Fzx',
+  destinoCorreo: 'jcollazosvorse@gmail.com'
+};
+
+function handleSi() {
+  siSelected = true;
+  document.getElementById('btn-si').classList.add('selected');
+  document.getElementById('btn-no').classList.remove('selected');
+  document.getElementById('si-section').classList.add('visible');
+  document.getElementById('modal-confirm').classList.add('active');
+  startPetals();
+}
+
+function handleNo() {
+  document.getElementById('btn-no').classList.add('selected');
+  document.getElementById('btn-si').classList.remove('selected');
+  document.getElementById('modal-no').classList.add('active');
+}
+
+function closeModalNo() {
+  const modalNo = document.getElementById('modal-no');
+  modalNo.classList.remove('active');
+  modalNo.style.display = 'none';
+  document.getElementById('btn-no').classList.add('selected');
+  document.getElementById('btn-si').classList.remove('selected');
+  document.getElementById('si-section').classList.remove('visible');
+  setTimeout(() => {
+    modalNo.style.display = '';
+  }, 20);
+  mostrarMensajeSecreto('Entendido 🌿 Respetaré tu decisión.');
+}
+
+function acceptFromModal() {
+  document.getElementById('modal-no').classList.remove('active');
+  handleSi();
+}
+
+function closeModalConfirm() {
+  document.getElementById('modal-confirm').classList.remove('active');
+}
+
+function selectFood(el) {
+  document.querySelectorAll('.food-option').forEach(f => f.classList.remove('selected-opt'));
+  el.classList.add('selected-opt');
+  el.querySelector('input').checked = true;
+}
+
+function selectMoto(el) {
+  document.querySelectorAll('.moto-option').forEach(f => f.classList.remove('selected-opt'));
+  el.classList.add('selected-opt');
+  el.querySelector('input').checked = true;
+}
+
+function startPetals() {
+  const container = document.getElementById('petals-container');
+  const emojis = ['🌸','🌹','🌺','🌷','💐','✿'];
+  for (let i = 0; i < 18; i++) {
+    setTimeout(() => {
+      const petal = document.createElement('div');
+      petal.className = 'falling-petal';
+      petal.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (3 + Math.random() * 4) + 's';
+      petal.style.animationDelay = Math.random() * 2 + 's';
+      petal.style.fontSize = (14 + Math.random() * 14) + 'px';
+      container.appendChild(petal);
+      setTimeout(() => petal.remove(), 8000);
+    }, i * 150);
+  }
+}
+
+async function submitForm() {
+  const foodSelected = document.querySelector('input[name="food"]:checked');
+  const motoSelected = document.querySelector('input[name="moto"]:checked');
+  const wish = document.getElementById('picnic-wish').value.trim();
+
+  if (!foodSelected) {
+    document.getElementById('food-options').style.outline = '2px solid rgba(200,100,130,0.4)';
+    document.getElementById('food-options').style.borderRadius = '14px';
+    setTimeout(() => {
+      document.getElementById('food-options').style.outline = 'none';
+    }, 2000);
+    return;
+  }
+
+  if (!motoSelected) {
+    document.getElementById('moto-options').style.outline = '2px solid rgba(200,100,130,0.4)';
+    document.getElementById('moto-options').style.borderRadius = '14px';
+    setTimeout(() => {
+      document.getElementById('moto-options').style.outline = 'none';
+    }, 2000);
+    return;
+  }
+
+  const foodLabels = {
+    '1': 'Ir a Casa Banana 🍓🥪',
+    '2': 'Comprar chucherías 🍫🍬',
+    '3': 'Picnic suave y salir a comer en la noche 🌙✨',
+    '4': 'Surprise - dejo que me proponga ella 😏'
+  };
+
+  const foodChoice = foodLabels[foodSelected.value];
+  const motoChoice = motoSelected.value === 'si' ? 'Sí, vamos en moto 🏍️' : 'No, mejor otro transporte 🌸';
+
+  if (
+    CONFIG_EMAILJS.usarEnvioReal &&
+    (CONFIG_EMAILJS.templateId === 'template_picnic' || CONFIG_EMAILJS.publicKey === 'YOUR_EMAILJS_PUBLIC_KEY')
+  ) {
+    alert('Falta configurar templateId o publicKey de EmailJS antes de enviar la prueba 🌸');
+    return;
+  }
+
+  document.getElementById('form-actions').style.display = 'none';
+  document.getElementById('sending-state').classList.add('visible');
+
+  const body = {
+    service_id: CONFIG_EMAILJS.serviceId,
+    template_id: CONFIG_EMAILJS.templateId,
+    user_id: CONFIG_EMAILJS.publicKey,
+    template_params: {
+      to_email: CONFIG_EMAILJS.destinoCorreo,
+      food_choice: foodChoice,
+      moto_choice: motoChoice,
+      picnic_wish: wish || 'No escribió nada… (hay que preguntarle en persona 😏)',
+      date: '3 de mayo, 3:30 - 4:00 pm',
+      location: 'Parque detrás de San Antonio, Cali'
+    }
+  };
+
+  if (!CONFIG_EMAILJS.usarEnvioReal) {
+    // Simulación de envío para pruebas visuales
+    setTimeout(() => {
+      document.getElementById('sending-state').classList.remove('visible');
+      mostrarCarta();
+    }, 2200);
+    return;
+  }
+
+  try {
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error('EmailJS no respondio OK');
+    document.getElementById('sending-state').classList.remove('visible');
+    mostrarCarta();
+  } catch (e) {
+    document.getElementById('sending-state').classList.remove('visible');
+    document.getElementById('form-actions').style.display = 'block';
+    alert('Hubo un problema enviando al correo, revisa la configuración de EmailJS 🌸');
+  }
+}
+
+// ===== MÚSICA WEB AUDIO =====
+let audioCtx = null;
+let musicaActiva = false;
+let melodiaTimer = null;
+
+// Cambia este valor para usar otra melodía: 'suave', 'dulce', 'dulceModerna' o 'alegre'
+const MELODIA_ACTIVA = 'misteriosa';
+const MELODIAS = {
+  suave: [
+    {f: 523.25, d: 0.55}, {f: 659.25, d: 0.40}, {f: 783.99, d: 0.55},
+    {f: 880.00, d: 0.75}, {f: 783.99, d: 0.40}, {f: 698.46, d: 0.55},
+    {f: 659.25, d: 0.80}, {f: 0,      d: 0.45},
+    {f: 440.00, d: 0.50}, {f: 523.25, d: 0.40}, {f: 659.25, d: 0.60},
+    {f: 587.33, d: 0.50}, {f: 523.25, d: 0.95}, {f: 0,      d: 0.55},
+    {f: 392.00, d: 0.50}, {f: 493.88, d: 0.40}, {f: 587.33, d: 0.55},
+    {f: 659.25, d: 0.50}, {f: 587.33, d: 0.40}, {f: 523.25, d: 0.60},
+    {f: 493.88, d: 1.10}, {f: 0,      d: 0.70}
+  ],
+  dulce: [
+    {f: 392.00, d: 0.55}, {f: 440.00, d: 0.55}, {f: 523.25, d: 0.70},
+    {f: 587.33, d: 0.80}, {f: 523.25, d: 0.45}, {f: 440.00, d: 0.60},
+    {f: 493.88, d: 0.85}, {f: 0,      d: 0.40},
+    {f: 349.23, d: 0.55}, {f: 392.00, d: 0.45}, {f: 440.00, d: 0.60},
+    {f: 523.25, d: 0.65}, {f: 493.88, d: 0.55}, {f: 440.00, d: 0.90},
+    {f: 0,      d: 0.55}
+  ],
+  dulceModerna: [
+  {f: 392.00, d: 0.5}, {f: 440.00, d: 0.5}, {f: 493.88, d: 0.6},
+  {f: 523.25, d: 0.7}, {f: 587.33, d: 0.6}, {f: 659.25, d: 0.8},
+  {f: 587.33, d: 0.5}, {f: 523.25, d: 0.9},
+  {f: 0,      d: 0.4},
+  {f: 493.88, d: 0.5}, {f: 523.25, d: 0.6}, {f: 587.33, d: 0.7},
+  {f: 523.25, d: 1.0}
+],
+alegre: [
+  {f: 523.25, d: 0.3}, {f: 587.33, d: 0.3}, {f: 659.25, d: 0.4},
+  {f: 698.46, d: 0.3}, {f: 783.99, d: 0.5}, {f: 880.00, d: 0.6},
+  {f: 783.99, d: 0.3}, {f: 698.46, d: 0.4},
+  {f: 659.25, d: 0.5}, {f: 587.33, d: 0.4}, {f: 523.25, d: 0.7}
+]
+,
+misteriosa: [
+  {f: 392.00, d: 0.6}, {f: 415.30, d: 0.5}, {f: 440.00, d: 0.7},
+  {f: 415.30, d: 0.6}, {f: 392.00, d: 0.8},
+  {f: 0,      d: 0.5},
+  {f: 349.23, d: 0.6}, {f: 392.00, d: 0.7}, {f: 415.30, d: 0.6},
+  {f: 440.00, d: 0.9}
+]
+};
+const MELODIA = MELODIAS[MELODIA_ACTIVA] || MELODIAS.suave;
+
+function tocarNotaPiano(freq, tiempo) {
+  if (!freq || !audioCtx) return;
+  const gMaster = audioCtx.createGain();
+  gMaster.gain.setValueAtTime(0, tiempo);
+  gMaster.gain.linearRampToValueAtTime(0.09, tiempo + 0.015);
+  gMaster.gain.exponentialRampToValueAtTime(0.001, tiempo + 1.4);
+  gMaster.connect(audioCtx.destination);
+  [[1, 1], [2, 0.38], [3, 0.15], [4, 0.07]].forEach(([mult, vol]) => {
+    const osc = audioCtx.createOscillator();
+    const g   = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq * mult;
+    g.gain.value = vol;
+    osc.connect(g);
+    g.connect(gMaster);
+    osc.start(tiempo);
+    osc.stop(tiempo + 1.5);
+  });
+}
+
+function programarMelodia() {
+  if (!musicaActiva || !audioCtx) return;
+  let t = audioCtx.currentTime + 0.08;
+  MELODIA.forEach(nota => {
+    tocarNotaPiano(nota.f, t);
+    t += nota.d;
+  });
+  const durTotal = MELODIA.reduce((s, n) => s + n.d, 0);
+  melodiaTimer = setTimeout(programarMelodia, (durTotal - 0.6) * 1000);
+}
+
+function setMusicaActiva(estado) {
+  if (musicaActiva === estado) return;
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  musicaActiva = estado;
+  const btn = document.getElementById('music-btn');
+  if (musicaActiva) {
+    btn.classList.add('playing');
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    programarMelodia();
+  } else {
+    btn.classList.remove('playing');
+    clearTimeout(melodiaTimer);
+  }
+}
+
+function toggleMusica() {
+  setMusicaActiva(!musicaActiva);
+}
+
+function activarMusicaPrimerGesto(event) {
+  const btn = document.getElementById('music-btn');
+  if (btn && event.target && btn.contains(event.target)) return;
+  setMusicaActiva(true);
+}
+
+// ===== EASTER EGGS =====
+let clicksFlores = 0;
+const easterDesbloqueado = [false, false, false];
+
+function floresClick(event) {
+  event.stopPropagation();
+  clicksFlores++;
+  crearExplosionMini(event.clientX, event.clientY);
+  if (clicksFlores === 5 && !easterDesbloqueado[0]) {
+    easterDesbloqueado[0] = true;
+    mostrarMensajeSecreto('🌸 ¡Qué curiosa eres! Encontraste un secreto escondido 🌸');
+  }
+  if (clicksFlores === 10 && !easterDesbloqueado[1]) {
+    easterDesbloqueado[1] = true;
+    lluviaCorazones();
+    mostrarMensajeSecreto('💕 ¡Segundo secreto! Mira cuántos corazones que caen… 💕');
+  }
+  if (clicksFlores === 18 && !easterDesbloqueado[2]) {
+    easterDesbloqueado[2] = true;
+    lluviaCorazones();
+    setTimeout(lluviaCorazones, 1200);
+    mostrarMensajeSecreto('🌹 ¡Encontraste el secreto mayor! Eres demasiado curiosa… 😏🌹');
+  }
+}
+
+function crearExplosionMini(x, y) {
+  const emojis = ['🌸','🌹','💕','✨','🌷','💗'];
+  for (let i = 0; i < 8; i++) {
+    const el = document.createElement('div');
+    el.className = 'petal-explosion';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+    const ang  = (i / 8) * Math.PI * 2;
+    const dist = 45 + Math.random() * 65;
+    el.style.setProperty('--dx', (Math.cos(ang) * dist) + 'px');
+    el.style.setProperty('--dy', (Math.sin(ang) * dist) + 'px');
+    el.style.fontSize = (13 + Math.random() * 12) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 950);
+  }
+}
+
+function mostrarMensajeSecreto(texto) {
+  const msg = document.createElement('div');
+  msg.className = 'easter-msg';
+  msg.textContent = texto;
+  document.body.appendChild(msg);
+  requestAnimationFrame(() => requestAnimationFrame(() => msg.classList.add('visible')));
+  setTimeout(() => {
+    msg.classList.remove('visible');
+    setTimeout(() => msg.remove(), 450);
+  }, 3200);
+}
+
+function lluviaCorazones() {
+  const emojis = ['💕','💖','💗','💓','❤️','🌹','💝'];
+  for (let i = 0; i < 32; i++) {
+    setTimeout(() => {
+      const h = document.createElement('div');
+      h.className = 'falling-petal';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.animationDuration = (2.5 + Math.random() * 3) + 's';
+      h.style.fontSize = (15 + Math.random() * 18) + 'px';
+      document.getElementById('petals-container').appendChild(h);
+      setTimeout(() => h.remove(), 7000);
+    }, i * 90);
+  }
+}
+
+// Inicializar easter egg en flores del divider
+document.querySelectorAll('.divider-flower').forEach(el => {
+  el.addEventListener('click', floresClick);
+});
+
+// Nota: los navegadores bloquean autoplay con sonido sin interacción.
+// Por eso se activa automáticamente en el primer toque/click/tecla.
+window.addEventListener('pointerdown', activarMusicaPrimerGesto, { once: true });
+window.addEventListener('keydown', activarMusicaPrimerGesto, { once: true });
+
+// ===== CARTA SORPRESA =====
+function mostrarCarta() {
+  document.getElementById('carta-sobre-wrap').style.display = 'block';
+  document.getElementById('carta-papel').classList.remove('visible');
+  document.getElementById('sobre-solapa').classList.remove('abierta');
+  document.getElementById('carta-overlay').classList.add('active');
+  startPetals();
+}
+
+function abrirCarta() {
+  const solapa = document.getElementById('sobre-solapa');
+  if (solapa.classList.contains('abierta')) return;
+  solapa.classList.add('abierta');
+  setTimeout(() => {
+    document.getElementById('carta-sobre-wrap').style.display = 'none';
+    document.getElementById('carta-papel').classList.add('visible');
+    startPetals();
+  }, 780);
+}
+
+function cerrarCarta() {
+  document.getElementById('carta-overlay').classList.remove('active');
+  document.getElementById('success-msg').classList.add('visible');
+  startPetals();
+  setTimeout(startPetals, 3000);
+}
+</script>
+
+</body>
+</html>
